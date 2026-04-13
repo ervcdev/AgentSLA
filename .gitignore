@@ -25,3 +25,4 @@ cache/
 artifacts/
 typechain-types/
 .next/
+/context.md
