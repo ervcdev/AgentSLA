@@ -2,7 +2,8 @@
 
 import { ReactNode, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { WagmiProvider } from "wagmi";
+import { WagmiProvider, createConfig, http } from "wagmi";
+import { injected } from "wagmi/connectors";
 import {
   RainbowKitProvider,
   darkTheme,
@@ -11,19 +12,40 @@ import {
 import "@rainbow-me/rainbowkit/styles.css";
 import { kiteTestnet } from "@/lib/chains/kite";
 
-const projectId =
-  process.env.NEXT_PUBLIC_PROJECT_ID ??
-  "00000000000000000000000000000000";
+const walletConnectProjectId =
+  process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
 
-const wagmiConfig = getDefaultConfig({
-  appName: "AgentSLA",
-  projectId,
-  chains: [kiteTestnet],
-  ssr: true,
-});
+// Si hay projectId de WalletConnect usamos getDefaultConfig (incluye múltiples
+// wallets via WalletConnect). En caso contrario, fallback a un config mínimo
+// con sólo el conector inyectado del navegador (MetaMask, Rabby, etc.).
+const wagmiConfig = walletConnectProjectId
+  ? getDefaultConfig({
+      appName: "AgentSLA",
+      projectId: walletConnectProjectId,
+      chains: [kiteTestnet],
+      ssr: true,
+    })
+  : createConfig({
+      chains: [kiteTestnet],
+      connectors: [injected({ shimDisconnect: true })],
+      transports: {
+        [kiteTestnet.id]: http(),
+      },
+      ssr: true,
+    });
 
 export function Providers({ children }: { children: ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 30_000,
+            refetchOnWindowFocus: false,
+          },
+        },
+      }),
+  );
 
   return (
     <WagmiProvider config={wagmiConfig}>

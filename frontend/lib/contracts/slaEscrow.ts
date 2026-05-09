@@ -1,6 +1,11 @@
-/** Test USDT en Kite testnet (context.md). La UI lo muestra como “USDC” en la demo. */
+import { getAddress } from "viem";
+
+/** Test USDT en Kite testnet (ver context.md). */
 export const KITE_TEST_USDT =
   "0x0fF5393387ad2f9f691FD6Fd28e07E3969e27e63" as const;
+
+export const KITE_TEST_USDT_DECIMALS = 18;
+export const KITE_TEST_USDT_SYMBOL = "USDT (test)";
 
 export const slaEscrowAbi = [
   {
@@ -17,6 +22,27 @@ export const slaEscrowAbi = [
       { name: "durationSeconds", type: "uint256" },
     ],
     outputs: [{ name: "slaId", type: "bytes32" }],
+  },
+  {
+    type: "function",
+    name: "depositFunds",
+    stateMutability: "nonpayable",
+    inputs: [{ name: "slaId", type: "bytes32" }],
+    outputs: [],
+  },
+  {
+    type: "function",
+    name: "releaseFunds",
+    stateMutability: "nonpayable",
+    inputs: [{ name: "slaId", type: "bytes32" }],
+    outputs: [],
+  },
+  {
+    type: "function",
+    name: "penalize",
+    stateMutability: "nonpayable",
+    inputs: [{ name: "slaId", type: "bytes32" }],
+    outputs: [],
   },
   {
     type: "function",
@@ -54,10 +80,31 @@ export const slaEscrowAbi = [
       { name: "amount", type: "uint256", indexed: false },
     ],
   },
+  {
+    type: "event",
+    name: "SLAFunded",
+    inputs: [
+      { name: "slaId", type: "bytes32", indexed: true },
+      { name: "amount", type: "uint256", indexed: false },
+    ],
+  },
+  {
+    type: "event",
+    name: "SLASettled",
+    inputs: [
+      { name: "slaId", type: "bytes32", indexed: true },
+      { name: "penalized", type: "bool", indexed: false },
+      { name: "providerAmount", type: "uint256", indexed: false },
+    ],
+  },
 ] as const;
 
 export function getEscrowAddress(): `0x${string}` | undefined {
   const raw = process.env.NEXT_PUBLIC_SLA_ESCROW_ADDRESS;
-  if (!raw || !raw.startsWith("0x")) return undefined;
-  return raw as `0x${string}`;
+  if (!raw || !raw.startsWith("0x") || raw.length !== 42) return undefined;
+  try {
+    return getAddress(raw) as `0x${string}`;
+  } catch {
+    return undefined;
+  }
 }

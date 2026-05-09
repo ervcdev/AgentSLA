@@ -1,21 +1,76 @@
 @import "tailwindcss";
 
 :root {
+  /* Surfaces */
   --background: #0a1628;
   --foreground: #e8eef5;
+  --card: #0d1f35;
+  --card-foreground: #e8eef5;
+  --popover: #0d1f35;
+  --popover-foreground: #e8eef5;
+
+  /* Brand */
+  --primary: #00e5cc;
+  --primary-foreground: #0a1628;
   --accent: #00e5cc;
+  --accent-foreground: #0a1628;
+
+  /* Neutrals */
+  --secondary: #11253d;
+  --secondary-foreground: #e8eef5;
+  --muted: #11253d;
+  --muted-foreground: #95abc6;
+  --border: #1a2942;
+  --input: #1a2942;
+  --ring: #00e5cc;
+
+  /* States */
+  --destructive: #f87171;
+  --destructive-foreground: #1a0606;
+  --success: #34d399;
+  --success-foreground: #052e1f;
+  --warning: #fbbf24;
+  --warning-foreground: #2a1a05;
+
+  --radius: 0.5rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-body {
-  background: var(--background);
+html {
+  background-color: var(--background);
   color: var(--foreground);
+}
+
+body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
