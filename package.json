@@ -1,11 +1,18 @@
 {
   "name": "agentsla",
   "version": "1.0.0",
-  "description": "create proyect AgentSLA",
-  "main": "index.js",
+  "description": "AgentSLA — smart contracts (Hardhat) + Next.js frontend",
+  "private": true,
+  "type": "commonjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm run dev --prefix frontend"
+    "dev": "npm run dev --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "start": "npm run start --prefix frontend",
+    "lint": "npm run lint --prefix frontend",
+    "install:frontend": "npm install --prefix frontend",
+    "hardhat": "hardhat",
+    "compile": "hardhat compile",
+    "test": "hardhat test"
   },
   "keywords": [],
   "author": "",
@@ -20,14 +27,6 @@
     "typescript": "~5.8.0"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^5.6.1",
-    "@rainbow-me/rainbowkit": "^2.2.11",
-    "@tanstack/react-query": "^5.100.9",
-    "express": "^5.2.1",
-    "next": "^16.2.6",
-    "react": "^19.2.6",
-    "viem": "^2.48.11",
-    "wagmi": "^3.6.11"
-  },
-  "type": "commonjs"
+    "@openzeppelin/contracts": "^5.6.1"
+  }
 }
